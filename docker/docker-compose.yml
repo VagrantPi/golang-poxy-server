@@ -1,0 +1,40 @@
+version: "3.0"
+
+services:
+  golang-proxy-server:
+    container_name: golang-proxy-server
+    hostname: golang-proxy-server
+    build:
+      context: ../
+      dockerfile: docker/Dockerfile
+    image: golang-proxy-server:latest
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - mock-server
+    volumes:
+      - ./configure.conf:/etc/golang-proxy-server/configure.conf:ro
+      - ../log:/var/log/golang-proxy-server
+    restart: always
+    networks:
+      golang-proxy-server-network:
+        ipv4_address: 172.20.0.5
+  mock-server:
+    container_name: mock-server
+    hostname: mock-server
+    image: clue/json-server
+    ports:
+      - "8083:80"
+    volumes:
+      - ../mock.json:/data/db.json
+    networks:
+      golang-proxy-server-network:
+        ipv4_address: 172.20.0.6
+    restart: always
+
+networks:
+  golang-proxy-server-network:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24

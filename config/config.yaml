@@ -1,0 +1,11 @@
+env: 
+    env_host: 127.0.0.1
+    env_port: 8080
+    env_timeout: 3
+external:
+    # external_url: mock
+    external_url: "http://127.0.0.1:8083/posts"
+    external_method: POST
+    external_limit_per: 3
+    external_request_timeout: 10
+    external_request_queue: 2000
