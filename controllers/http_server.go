@@ -3,12 +3,16 @@ package controllers
 import (
 	"encoding/json"
 	"golang-proxy-server/common/model"
+	"golang-proxy-server/config"
 	"net/http"
+
+	"github.com/rs/cors"
 )
 
 // Monitor - return some statistics
 func Monitor(w http.ResponseWriter, req *http.Request) {
 	status := <-model.TCPConnectStatusChannel
+	status.ExternalAPIRequestIng = config.DeploySet.External.ExternalLimitPer - len(model.ExternalAPIRate)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(status)
@@ -17,6 +21,8 @@ func Monitor(w http.ResponseWriter, req *http.Request) {
 
 // HTTPService - Http Service for return some statistics
 func HTTPService() {
-	http.HandleFunc("/monitor", Monitor)
-	http.ListenAndServe(":8081", nil)
+	mux := http.NewServeMux()
+	mux.HandleFunc("/monitor", Monitor)
+	handler := cors.Default().Handler(mux)
+	http.ListenAndServe(":8081", handler)
 }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>v-charts</title>
+  <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/v-charts/lib/index.min.js"></script>-->
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script> 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/v-charts/lib/style.min.css">
+</head>
+<body>
+  <div id="app">
+    <ve-line :data="chartData"></ve-line>
+    <h1>Status</h1>
+    <h3>tcp 現在連線數: {{ status.now_connect_number }}</h3>
+    <h3>tcp 累計總連線數: {{ status.total_connect_number }}</h3>
+    <h3>external api 完成數: {{ status.finish_external_api_request }}</h3>
+    <h3>external api 處理中數量: {{ status.external_api_request_ing }}/1s</h3>
+    <h3>external api 等待處理數: {{ status.wait_external_api_request }}</h3>
+    <h3>external api 累計總處理數: {{ status.all_external_api_request }}</h3>
+  </div>
+</body>
+</html> 

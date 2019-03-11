@@ -88,7 +88,7 @@ func tcpHandle(conn *net.TCPConn, clientID, clientIP string) {
 	// conn.SetDeadline(time.Now().Add(time.Second * 2))
 	defer func() {
 		config.Info.Printf("client %v disconnected ip: %v", clientID, clientIP)
-		conn.Write([]byte("tcp server is connect"))
+		conn.Write([]byte("tcp server is disconnected"))
 		model.TCPDisconnected(nil)
 		conn.Close()
 	}()

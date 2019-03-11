@@ -1,2 +1,4 @@
 size_coverage.out
 log
+.DS_Store
+node_modules

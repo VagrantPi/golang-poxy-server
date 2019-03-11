@@ -48,6 +48,7 @@ type TCPConnectStatus struct {
 	NowConnectNumber         int `json:"now_connect_number"`
 	TotalConnectNumber       int `json:"total_connect_number"`
 	FinishExternalAPIRequest int `json:"finish_external_api_request"`
+	ExternalAPIRequestIng    int `json:"external_api_request_ing"`
 	WaitExternalAPIRequest   int `json:"wait_external_api_request"`
 	RejectExternalAPIRequest int `json:"reject_external_api_request"`
 	AllExternalAPIRequest    int `json:"all_external_api_request"`
