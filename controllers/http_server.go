@@ -13,6 +13,7 @@ import (
 func Monitor(w http.ResponseWriter, req *http.Request) {
 	status := <-model.TCPConnectStatusChannel
 	status.ExternalAPIRequestIng = config.DeploySet.External.ExternalLimitPer - len(model.ExternalAPIRate)
+	w.Header().Set("Access-Control-Allow-Origin", "*")
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	json.NewEncoder(w).Encode(status)

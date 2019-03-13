@@ -40,11 +40,9 @@ new Vue({
       let self = this;
       axios({
         methods: 'get',
-        url: 'http://localhost:8081/monitor'
+        url: 'http://127.0.0.1:8081/monitor'
       })
       .then((resp) => {
-        console.log('resp=>',resp)
-        // self.teachers = resp.data;
         if (self.chartData.rows.length > 15) {
           self.chartData.rows.shift()
         }

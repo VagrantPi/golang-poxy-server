@@ -74,13 +74,12 @@ func TestWorker(t *testing.T) {
 	var conn *net.TCPConn
 	var wg sync.WaitGroup
 	wg.Add(1)
-	// go func(conn **net.TCPConn, wg *sync.WaitGroup) {
 	go mockTCPService(&conn, &wg)
-	// }(&conn, &wg)
 
 	// connect mock tcp server
 	wg.Add(1)
 	go func(wg *sync.WaitGroup) {
+		defer wg.Done()
 		for {
 			clientConn, _ := net.Dial("tcp", "127.0.0.1:9996")
 
@@ -96,7 +95,6 @@ func TestWorker(t *testing.T) {
 				break
 			}
 		}
-		wg.Done()
 	}(&wg)
 	wg.Wait()
 	t.Run("TestWorker model.ExternalRequestQueue len should be 1", func(t *testing.T) {
@@ -109,25 +107,22 @@ func TestWorker(t *testing.T) {
 	t.Run("TestWorker after Work() model.ExternalRequestQueue len should be 0", func(t *testing.T) {
 		var wg2 sync.WaitGroup
 		wg2.Add(1)
-		// fmt.Println("conn:", conn)
 		go func(wg2 *sync.WaitGroup) {
 			for data := range model.ExternalRequestQueue {
-				fmt.Println("data:", data)
-				// config.Info.Printf("api response : %v", elem)
 				requestData, ok := data.(*TCPExternalAPI)
-				fmt.Println("requestData:", requestData)
 				if ok {
 					go Worker(conn, "testClientID", "http://127.0.0.1", requestData)
 				}
+				wg2.Done()
+				break
 			}
-			wg2.Done()
 		}(&wg2)
 
+		wg2.Wait()
 		if len(model.ExternalRequestQueue) != 0 {
 			t.Errorf("len(model.ExternalRequestQueue) = %v, want 0", len(model.ExternalRequestQueue))
 			return
 		}
-		wg2.Wait()
 	})
 
 }
@@ -156,21 +151,3 @@ func mockTCPService(conn **net.TCPConn, wg *sync.WaitGroup) {
 		break
 	}
 }
-
-// func Test_mockTCPService(t *testing.T) {
-// 	type args struct {
-// 		conn **net.TCPConn
-// 		wg   *sync.WaitGroup
-// 	}
-// 	tests := []struct {
-// 		name string
-// 		args args
-// 	}{
-// 		// TODO: Add test cases.
-// 	}
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			mockTCPService(tt.args.conn, tt.args.wg)
-// 		})
-// 	}
-// }

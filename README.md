@@ -75,6 +75,10 @@ GET 127.0.0.1:8081/monitor
 mock server(json-server)
 
 ```
-GET 127.0.0.1/test
-POST 127.0.0.1/test
+web-monitor: http://127.0.0.1:8084
+tcp connect: nc localhost 8080
 ```
+
+Demo:
+
+![web-monitor](./web-monitor.jpg)

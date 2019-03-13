@@ -9,7 +9,7 @@ services:
       dockerfile: docker/Dockerfile
     image: golang-proxy-server:latest
     ports:
-      - "8080:8080"
+      - "8085:8080"
       - "8081:8081"
     depends_on:
       - mock-server
@@ -32,6 +32,18 @@ services:
       golang-proxy-server-network:
         ipv4_address: 172.20.0.6
     restart: always
+  # you shold 
+  monitor-web:  
+    container_name: monitor-web
+    hostname: monitor-web
+    image: monitor-web
+    build:
+      context: ../monitor-web
+    ports:
+      - "8084:8083"
+    networks:
+      golang-proxy-server-network:
+        ipv4_address: 172.20.0.7
 
 networks:
   golang-proxy-server-network:
