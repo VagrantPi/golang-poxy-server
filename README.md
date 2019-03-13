@@ -51,6 +51,14 @@ GET 127.0.0.1:8081/monitor
 
 ## docker-compose
 
+config:
+
+same as `./config/config.yaml`, but you can update it to change config when `docker-compose restart`, without `docker-compose build` again.
+
+```
+./docker/configure.conf
+```
+
 ```
 cd docker
 sh update.sh
