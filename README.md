@@ -59,6 +59,8 @@ same as `./config/config.yaml`, but you can update it to change config when `doc
 ./docker/configure.conf
 ```
 
+use:
+
 ```
 cd docker
 sh update.sh
@@ -68,24 +70,29 @@ docker-compose build
 docker-compose up -d
 ```
 
-connect server
+service:
 
-```
-nc localhost 8080
-```
+- connect server
 
-tcp server status(http rest-like api)
+    ```
+    nc localhost 8085
+    ```
 
-```
-GET 127.0.0.1:8081/monitor
-```
+- tcp server status(http rest-like api)
 
-mock server(json-server)
+    ```
+    GET 127.0.0.1:8081/monitor
+    ```
 
-```
-web-monitor: http://127.0.0.1:8084
-tcp connect: nc localhost 8080
-```
+- mock server(json-server)
+
+    a mock external api server
+
+- web-monitor
+
+    ```
+    http://127.0.0.1:8084
+    ```
 
 Demo:
 
